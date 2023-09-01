@@ -4,20 +4,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>com.github.justedlev</groupId>
     <artifactId>omm-jtc</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <description>org.modelmapper java type converters</description>
 
-    <parent>
-        <groupId>com.github.justedlev</groupId>
-        <artifactId>maven-repository</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-    </parent>
-
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <java.version>11</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <package-name>com.github.justedlev</package-name>
+        <mvn.repository.id>github</mvn.repository.id>
+        <mvn.repository.name>GitHub Justedlev Apache Maven Packages</mvn.repository.name>
+        <mvn.repository.url>https://maven.pkg.github.com/Justedlev/maven-repository</mvn.repository.url>
         <package-name>com.github.justedlev.modelmapper</package-name>
     </properties>
 
@@ -48,6 +48,68 @@
             <url>${mvn.repository.url}</url>
         </repository>
     </distributionManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.5.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <source>${java.version}</source>
+                    <additionalOptions>-html5</additionalOptions>
+                    <additionalJOptions>--allow-script-in-comments</additionalJOptions>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <packageName>${package-name}</packageName>
+                        </manifest>
+                        <manifestEntries>
+                            <Created-By>Justedlev {-...-}</Created-By>
+                            <Implementation-Title>${project.description}</Implementation-Title>
+                            <Implementation-Version>${project.version}</Implementation-Version>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <developers>
         <developer>
